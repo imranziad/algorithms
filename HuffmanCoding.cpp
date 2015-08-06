@@ -100,13 +100,16 @@ Node* Remove()
 
 void buildCode(Node* t, string s)
 {
-    if(t->left == NULL && t->right == NULL)
-        code[(int)t->data] = s;
+    if(t->left != NULL)
+        buildCode(t->left, s+'0');
     else
     {
-        buildCode(t->left, s+'0');
-        buildCode(t->right, s+'1');
+        code[(int)t->data] = s;
+        return ;
     }
+
+    if(t->right != NULL)
+        buildCode(t->right, s+'1');
 }
 
 void huffman()
@@ -117,6 +120,11 @@ void huffman()
         {
             Add( createNode(i, freq[i], NULL, NULL) );
         }
+    }
+
+    if(Size == 1)
+    {
+        Heap[1]->left = createNode(Heap[1]->data, Heap[1]->freq, NULL, NULL);
     }
 
     while(Size >= 2)
